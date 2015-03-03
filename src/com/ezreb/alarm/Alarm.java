@@ -3,10 +3,12 @@ package com.ezreb.alarm;
 import java.io.File;
 import java.io.Serializable;
 
-import com.ezreb.alarm.util.DataOutputStream;
+import com.ezreb.alarm.data.DataInputStream;
+import com.ezreb.alarm.data.DataOutputStream;
+import com.ezreb.alarm.data.FileType;
 import com.ezreb.alarm.util.Refrence;
 
-public class Alarm implements Serializable{
+public class Alarm implements Serializable {
 
 	/**
 	 * 
@@ -17,14 +19,15 @@ public class Alarm implements Serializable{
 	}
 	private String name;
 	public void saveToFile() {
-		File saveTo = new File(Refrence.alarms, name+".alarm");
-		DataOutputStream out = new DataOutputStream(saveTo);
-		out.writeObject(this);
+		DataOutputStream out = new DataOutputStream(FileType.ALARM);
+		out.writeObject(Refrence.alarms, name, this);
 	}
 	public static void main(String[] args) {
-		Refrence.home.mkdirs();
-		Refrence.alarms.mkdirs();
 		Alarm a = new Alarm("Test");
 		a.saveToFile();
+		AlarmSet a2 = new AlarmSet("TestSet");
+		a2.addAlarm(a);
+		a2.addAlarm(new Alarm("testing2"));
+		a2.saveToFile();
 	}
 }
