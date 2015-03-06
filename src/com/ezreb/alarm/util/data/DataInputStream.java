@@ -1,8 +1,9 @@
-package com.ezreb.alarm.data;
+package com.ezreb.alarm.util.data;
 
+import java.io.EOFException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -12,29 +13,22 @@ public class DataInputStream {
 	public DataInputStream(FileType type) {
 		this.fileType = type;
 	}
-	public Object readObject(File parent, String name) {
+	public Object readObject(File parent, String name) throws IOException, ClassNotFoundException, EOFException {
 		FileInputStream fileOut = null;
 		ObjectInputStream objectOut = null;
 		try {
 			fileOut = new FileInputStream(new File(parent, name+"."+this.fileType.extension));
 			System.out.println(new File(parent, name+"."+this.fileType.extension).getAbsolutePath());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		objectOut = new ObjectInputStream(fileOut);
+		Object object = objectOut.readObject();
 		try {
-			objectOut = new ObjectInputStream(fileOut);
+			objectOut.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			Object object = objectOut.readObject();
-			return object;
-		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return object;
 	}
 }

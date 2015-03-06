@@ -1,13 +1,17 @@
-package com.ezreb.alarm;
+package com.ezreb.alarm.dataTEMPNAME.alarm;
 
-import java.io.Serializable;
+import com.ezreb.alarm.dataTEMPNAME.StorableData;
+import com.ezreb.alarm.refrence.Refrence;
+import com.ezreb.alarm.util.data.DataOutputStream;
+import com.ezreb.alarm.util.data.FileType;
 
-import com.ezreb.alarm.data.DataOutputStream;
-import com.ezreb.alarm.data.FileType;
-import com.ezreb.alarm.util.Refrence;
+public class AlarmSet extends StorableData {
 
-public class AlarmSet implements Serializable {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8728084873280556917L;
+	
 	public String name;
 	public AlarmSet(String name) {this.name = name;}
 	public Alarm[] alarms = new Alarm[0];

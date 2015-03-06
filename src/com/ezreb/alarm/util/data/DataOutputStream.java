@@ -1,4 +1,4 @@
-package com.ezreb.alarm.data;
+package com.ezreb.alarm.util.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,20 +19,17 @@ public class DataOutputStream {
 			fileOut = new FileOutputStream(new File(parent, name+"."+this.fileType.extension));
 			System.out.println(new File(parent, name+"."+this.fileType.extension).getAbsolutePath());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			objectOut = new ObjectOutputStream(fileOut);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			objectOut.writeObject(object);
 			objectOut.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
