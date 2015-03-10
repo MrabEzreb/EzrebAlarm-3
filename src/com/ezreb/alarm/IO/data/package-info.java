@@ -3,4 +3,4 @@
  * @author bram.zerbe
  *
  */
-package com.ezreb.alarm.util.data;
+package com.ezreb.alarm.IO.data;
