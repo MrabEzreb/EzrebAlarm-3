@@ -45,7 +45,7 @@ public class ConfigurationHandler {
 							Logger.printErr("Multiple OnExit methods of configuration!", "Found multple @Config.OnExit in class "+class1.getName()+", which is annotated with @Config.");
 						} else if(onexit.size() == 1) {
 							final Method loader = (Method) onload.toArray()[0];
-							final Method exiter = (Method) onload.toArray()[0];
+							final Method exiter = (Method) onexit.toArray()[0];
 							try {
 								loader.invoke(class1.cast(object), (Object[]) null);
 							} catch (IllegalAccessException e) {
