@@ -33,7 +33,7 @@ public class DataInputStream {
 			AlarmSet as = new AlarmSet(name);
 			if(zf.getInputStream(index) == null) {
 				zf.close();
-				throw new ArchiveCorruptedException(as, Reason.FILE_MISSING);
+				throw new ArchiveCorruptedException(as, Reason.INDEX_MISSING);
 			}
 			Enumeration<? extends ZipEntry> zef = zf.entries();
 			while (zef.hasMoreElements()) {
@@ -48,6 +48,14 @@ public class DataInputStream {
 					try {
 						ArchiveIndex a = (ArchiveIndex) o;
 						ois.close();
+						for (String string : a.entries) {
+							if(zf.getEntry(string) == null) {
+								throw new ArchiveCorruptedException(as, Reason.FILE_MISSING);
+							}
+						}
+						if(a.entries.length < zf.size()) {
+							throw new ArchiveCorruptedException(as, Reason.UNKNOWN_FILE);
+						}
 					} catch(ClassCastException c2) {
 						
 					}

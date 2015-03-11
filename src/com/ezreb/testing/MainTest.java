@@ -12,6 +12,8 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
+import com.ezreb.alarm.util.OnStart;
+
 public class MainTest {
 
 	public static void main(String[] args) {
@@ -43,7 +45,6 @@ public class MainTest {
 		}
 	}
 	
-	@OnStart
 	public static String test() {
 		return "test";
 	}
