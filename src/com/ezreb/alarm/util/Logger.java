@@ -8,17 +8,17 @@ public class Logger {
 
 	public static void printErr(String message, String extraDebug) {
 		String source = "";
-		if(LoggerConfiguration.logConfiguration.printSource) {
-			if(LoggerConfiguration.logConfiguration.sourceName == null) {
+		if(LoggerConfiguration.logConfiguration.isPrintSource()) {
+			if(LoggerConfiguration.logConfiguration.getSourceName() == null) {
 				source = "["+new Throwable().getStackTrace()[1].getClassName().substring(new Throwable().getStackTrace()[1].getClassName().lastIndexOf(".")+1)+"."+new Throwable().getStackTrace()[1].getMethodName()+"()]: ";
 			} else {
-				source = "["+"("+LoggerConfiguration.logConfiguration.sourceName+") "+new Throwable().getStackTrace()[1].getClassName().substring(new Throwable().getStackTrace()[1].getClassName().lastIndexOf(".")+1)+"."+new Throwable().getStackTrace()[1].getMethodName()+"()]: ";
+				source = "["+"("+LoggerConfiguration.logConfiguration.getSourceName()+") "+new Throwable().getStackTrace()[1].getClassName().substring(new Throwable().getStackTrace()[1].getClassName().lastIndexOf(".")+1)+"."+new Throwable().getStackTrace()[1].getMethodName()+"()]: ";
 			}
 		} else {
-			source = "["+LoggerConfiguration.logConfiguration.sourceName+"]: ";
+			source = "["+LoggerConfiguration.logConfiguration.getSourceName()+"]: ";
 		}
 		System.err.println(source+message);
-		if(LoggerConfiguration.logConfiguration.extraDebug) {
+		if(LoggerConfiguration.logConfiguration.isExtraDebug()) {
 			System.err.println("\t"+extraDebug);
 		}
 	}

@@ -14,21 +14,21 @@ public class EzrebAlarm {
 	}
 	
 	public static void OnStartTest() {
-		Logger.printErr(LoggerConfiguration.logConfiguration.extraDebug+"", "test1");
+		Logger.printErr(LoggerConfiguration.logConfiguration.isExtraDebug()+"", "test1");
 		byte[] bytes = new byte[1];
 		try {
 			System.in.read(bytes);
 			String s = new String(bytes);
 			System.out.println(s);
 			if(s.equals("1")) {
-				LoggerConfiguration.logConfiguration.extraDebug = true;
+				LoggerConfiguration.logConfiguration.setExtraDebug(true);
 			} else {
-				LoggerConfiguration.logConfiguration.extraDebug = false;
+				LoggerConfiguration.logConfiguration.setExtraDebug(false);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Logger.printErr(""+LoggerConfiguration.logConfiguration.extraDebug, "etst");
+		Logger.printErr(""+LoggerConfiguration.logConfiguration.isExtraDebug(), "etst");
 	}
 
 }

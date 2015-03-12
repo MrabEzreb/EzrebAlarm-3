@@ -19,9 +19,45 @@ public class LoggerConfiguration extends Configuration {
 	private static final long serialVersionUID = 4135585701432689451L;
 	@Config.Instance
 	public static LoggerConfiguration logConfiguration = new LoggerConfiguration();
-	public boolean extraDebug;
-	public boolean printSource;
-	public String sourceName;
+	private boolean extraDebug;
+	private boolean printSource;
+	private String sourceName;
+	/**
+	 * @return the extraDebug
+	 */
+	public boolean isExtraDebug() {
+		return extraDebug;
+	}
+	/**
+	 * @param extraDebug the extraDebug to set
+	 */
+	public void setExtraDebug(boolean extraDebug) {
+		this.extraDebug = extraDebug;
+	}
+	/**
+	 * @return the printSource
+	 */
+	public boolean isPrintSource() {
+		return printSource;
+	}
+	/**
+	 * @param printSource the printSource to set
+	 */
+	public void setPrintSource(boolean printSource) {
+		this.printSource = printSource;
+	}
+	/**
+	 * @return the sourceName
+	 */
+	public String getSourceName() {
+		return sourceName;
+	}
+	/**
+	 * @param sourceName the sourceName to set
+	 */
+	public void setSourceName(String sourceName) {
+		this.sourceName = sourceName;
+	}
 	@Override
 	@Config.OnLoad
 	public String load() {
