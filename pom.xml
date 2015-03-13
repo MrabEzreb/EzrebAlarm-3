@@ -16,13 +16,30 @@
           <target/>
         </configuration>
       </plugin>
-    </plugins>
+      <plugin>
+	      <artifactId>maven-assembly-plugin</artifactId>
+	      <configuration>
+	          <descriptorRefs>
+	              <descriptorRef>jar-with-dependencies</descriptorRef>
+	              <descriptorRef>src</descriptorRef>
+	          </descriptorRefs>
+	          <finalName>src</finalName>
+	          <appendAssemblyId>false</appendAssemblyId>
+	          <outputDirectory>${project.basedir}/bin/</outputDirectory>
+	      </configuration>
+	  </plugin>
+	</plugins>
   </build>
   <dependencies>
   	<dependency>
   		<groupId>org.reflections</groupId>
   		<artifactId>reflections</artifactId>
   		<version>0.9.9</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.ezreb</groupId>
+  		<artifactId>FileBrowser</artifactId>
+  		<version>1.0.0</version>
   	</dependency>
   </dependencies>
 </project>
