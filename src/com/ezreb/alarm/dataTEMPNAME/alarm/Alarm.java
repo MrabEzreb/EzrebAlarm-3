@@ -2,16 +2,21 @@ package com.ezreb.alarm.dataTEMPNAME.alarm;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.ezreb.alarm.IO.data.DataInputStream;
 import com.ezreb.alarm.IO.data.DataOutputStream;
 import com.ezreb.alarm.IO.data.FileType;
 import com.ezreb.alarm.dataTEMPNAME.Compressable;
-import com.ezreb.alarm.dataTEMPNAME.archive.ArchiveCorruptedException;
+import com.ezreb.alarm.dataTEMPNAME.Time;
+import com.ezreb.alarm.dataTEMPNAME.action.Action;
 import com.ezreb.alarm.refrence.FileRefrence;
 import com.ezreb.alarm.util.ResultReturnBundle;
+import com.ezreb.alarm.window.ManageAlarms;
 
 public class Alarm implements Compressable {
 
@@ -20,11 +25,35 @@ public class Alarm implements Compressable {
 	 */
 	private static final long serialVersionUID = -5120772799072450134L;
 
+	private static Map<String, Alarm> alarms = new HashMap<String, Alarm>();
+	private static AlarmMapComboBoxModel comboBox = new AlarmMapComboBoxModel();
+	public Alarm(String name, Time time, Action action) {
+		this.name = name;
+		this.time = time;
+		this.action = action;
+	}
+	
+	public Alarm(String name, Time time) {
+		this.name = name;
+		this.time = time;
+	}
+
 	public Alarm(String name) {
 		this.name = name;
 	}
 
+	private Time time;
 	private String name;
+	private Action action;
+	private AlarmThread thread;
+	private boolean running = false;
+
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return action;
+	}
 
 	public void saveToFile() {
 		DataOutputStream out = new DataOutputStream(FileType.ALARM);
@@ -49,33 +78,135 @@ public class Alarm implements Compressable {
 		}
 		return new ResultReturnBundle(true, outputStream);
 	}
+	
+	
+	
+	
+	//Generated Stuff
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Map#containsKey(java.lang.Object)
+	 */
+	public boolean containsKey(Object key) {
+		return alarms.containsKey(key);
+	}
+	/**
+	 * @param value
+	 * @return
+	 * @see java.util.Map#containsValue(java.lang.Object)
+	 */
+	public boolean containsValue(Object value) {
+		return alarms.containsValue(value);
+	}
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Map#get(java.lang.Object)
+	 */
+	public Alarm get(Object key) {
+		return alarms.get(key);
+	}
+	/**
+	 * @param key
+	 * @param value
+	 * @return
+	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+	 */
+	public Alarm put(String key, Alarm value) {
+		return alarms.put(key, value);
+	}
+	/**
+	 * @param m
+	 * @see java.util.Map#putAll(java.util.Map)
+	 */
+	public void putAll(Map<? extends String, ? extends Alarm> m) {
+		alarms.putAll(m);
+	}
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Map#remove(java.lang.Object)
+	 */
+	public Alarm remove(Object key) {
+		return alarms.remove(key);
+	}
+	/**
+	 * @return
+	 * @see java.util.Map#isEmpty()
+	 */
+	public boolean isEmpty() {
+		return alarms.isEmpty();
+	}
+	/**
+	 * @return
+	 * @see java.util.Map#keySet()
+	 */
+	public Set<String> keySet() {
+		return alarms.keySet();
+	}
+	/**
+	 * @return
+	 * @see java.util.Map#size()
+	 */
+	public int size() {
+		return alarms.size();
+	}
+	/**
+	 * @return
+	 * @see java.util.Map#values()
+	 */
+	public Collection<Alarm> values() {
+		return alarms.values();
+	}
+	/**
+	 * @return the running
+	 */
+	public boolean isRunning() {
+		return running;
+	}
+	/**
+	 * 
+	 * @see java.lang.Thread#interrupt()
+	 */
+	public void interrupt() {
+		thread.interrupt();
+		this.running = false;
+		ManageAlarms.comboBox.removeItem(this);
+	}
+	/**
+	 * 
+	 * @see java.lang.Thread#start()
+	 */
+	public void start() {
+		this.thread = new AlarmThread(this);
+		thread.start();
+		this.running = true;
+		ManageAlarms.comboBox.addItem(this);
+	}
 
-	public static void main(String[] args) throws InterruptedException {
-		AlarmSet as = new AlarmSet("Test Alarm Set");
-		Alarm a1 = new Alarm("test1");
-		Alarm a2 = new Alarm("poopy");
-		Alarm a3 = new Alarm("amazing toilet tm");
-		Alarm a4 = new Alarm("such wow");
-		Alarm a5 = new Alarm(")D");
-		as.addAlarm(a1);
-		as.addAlarm(a2);
-		as.addAlarm(a3);
-		as.addAlarm(a4);
-		as.addAlarm(a5);
-		System.out.println(as.alarms.length);
-		as.saveToFile();
-		System.out.println("30 seconds");
-		Thread.sleep(30000);
-		DataInputStream dis = new DataInputStream(FileType.ALARM_SET);
-		try {
-			AlarmSet as2 = (AlarmSet) dis.readObject(FileRefrence.alarms,
-					"Test Alarm Set");
-			System.out.println(as2.name);
-			System.out.println(as2.alarms.length);
-		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
-		} catch (ArchiveCorruptedException e) {
-			e.printStackTrace();
-		}
+	/**
+	 * @return the time
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * @return the comboBox
+	 */
+	public static AlarmMapComboBoxModel getComboBox() {
+		return comboBox;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	@Override
+	public String toString() {
+		return this.name+"@"+this.time.toString();
 	}
 }

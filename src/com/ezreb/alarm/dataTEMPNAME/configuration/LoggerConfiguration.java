@@ -62,15 +62,15 @@ public class LoggerConfiguration extends Configuration {
 	@Config.OnLoad
 	public String load() {
 		super.load();
-		System.out.println(new File(FileRefrence.home, "LoggerConfiguration.EAConfig").exists());
-		if(new File(FileRefrence.home, "LoggerConfiguration.EAConfig").exists() == false) {
+		System.out.println(new File(FileRefrence.configurations, "LoggerConfiguration.EAConfig").exists());
+		if(new File(FileRefrence.configurations, "LoggerConfiguration.EAConfig").exists() == false) {
 			createFile();
 			//System.out.println("LOADED! WHOO!O");
 			extraDebug = false;
 			printSource = false;
 			sourceName = "EzrebAlarm-3";
 		} else {
-			File configFile = new File(FileRefrence.home, "LoggerConfiguration.EAConfig");
+			File configFile = new File(FileRefrence.configurations, "LoggerConfiguration.EAConfig");
 			try {
 				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(configFile));
 				logConfiguration = (LoggerConfiguration) ois.readObject();
@@ -88,7 +88,7 @@ public class LoggerConfiguration extends Configuration {
 	@Override
 	@Config.OnExit
 	public void save() {
-		File configFile = new File(FileRefrence.home, "LoggerConfiguration.EAConfig");
+		File configFile = new File(FileRefrence.configurations, "LoggerConfiguration.EAConfig");
 		configFile.delete();
 		try {
 			configFile.createNewFile();
@@ -111,11 +111,11 @@ public class LoggerConfiguration extends Configuration {
 		
 	}
 	private static void createFile() {
-		if(FileRefrence.home.exists() == false) {
-			FileRefrence.home.mkdirs();
+		if(FileRefrence.configurations.exists() == false) {
+			FileRefrence.configurations.mkdirs();
 			createFile();
 		} else {
-			File configFile = new File(FileRefrence.home, "LoggerConfiguration.EAConfig");
+			File configFile = new File(FileRefrence.configurations, "LoggerConfiguration.EAConfig");
 			System.out.println("created file");
 			try {
 				configFile.createNewFile();
