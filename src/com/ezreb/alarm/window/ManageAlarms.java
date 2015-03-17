@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,8 +39,8 @@ public class ManageAlarms extends JFrame {
 			}
 		});
 	}
-	public static JComboBox<Alarm> comboBox = new JComboBox<Alarm>();
-	private JLabel label;
+	public static JComboBox<String> comboBox = new JComboBox<String>();
+	private AlarmPanel alarmPanel;
 
 	@OnStart
 	public static void init() {
@@ -61,9 +60,9 @@ public class ManageAlarms extends JFrame {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] {84, 84, 84, 84, 84, 0};
-		gbl_contentPane.rowHeights = new int[] {63, 63, 63, 63, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowHeights = new int[] {21, 21, 21, 63, 63, 0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 
 		
@@ -74,33 +73,34 @@ public class ManageAlarms extends JFrame {
 		gbc_comboBox.gridx = 0;
 		gbc_comboBox.gridy = 0;
 		comboBox.setPreferredSize(new Dimension(160, 20));
+		comboBox.addItem("");
 		contentPane.add(comboBox, gbc_comboBox);
 		
-		JLabel lblYouSelected = new JLabel("You selected");
-		GridBagConstraints gbc_lblYouSelected = new GridBagConstraints();
-		gbc_lblYouSelected.insets = new Insets(0, 0, 5, 5);
-		gbc_lblYouSelected.gridx = 2;
-		gbc_lblYouSelected.gridy = 1;
-		contentPane.add(lblYouSelected, gbc_lblYouSelected);
-		
-		label = new JLabel("");
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				label.setText(comboBox.getSelectedItem().toString());
+				Alarm a = Alarm.get(comboBox.getSelectedItem());
+				if(a != null) {
+					
+				}
 			}
 		});
+		
+		alarmPanel = new AlarmPanel(Alarm.get(comboBox.getSelectedItem()));
+		GridBagConstraints gbc_alarmPanel = new GridBagConstraints();
+		gbc_alarmPanel.gridheight = 4;
+		gbc_alarmPanel.gridwidth = 5;
+		gbc_alarmPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_alarmPanel.fill = GridBagConstraints.BOTH;
+		gbc_alarmPanel.gridx = 0;
+		gbc_alarmPanel.gridy = 1;
+		contentPane.add(alarmPanel, gbc_alarmPanel);
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 5, 5);
 		gbc_label.gridx = 2;
 		gbc_label.gridy = 2;
-		contentPane.add(label, gbc_label);
 	}
 
-	public JLabel getLabel() {
-		return label;
-	}
-	
 	
 }

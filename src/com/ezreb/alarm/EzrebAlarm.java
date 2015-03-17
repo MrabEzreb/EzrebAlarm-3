@@ -40,7 +40,6 @@ public class EzrebAlarm {
 	}
 	
 	public static void windowTest() {
-		ManageAlarms ma = new ManageAlarms();
 		Alarm a1 = new Alarm("test1", new Time(15, 5, 5));
 		Alarm a2 = new Alarm("poopy", new Time(5, 5, 5));
 		Alarm a3 = new Alarm("amazing toilet tm", new Time(5, 5, 5));
@@ -51,6 +50,7 @@ public class EzrebAlarm {
 		a3.start();
 		a4.start();
 		a5.start();
+		ManageAlarms ma = new ManageAlarms();
 		ma.setVisible(true);
 	}
 	

@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.DefaultComboBoxModel;
+
 import com.ezreb.alarm.IO.data.DataOutputStream;
 import com.ezreb.alarm.IO.data.FileType;
 import com.ezreb.alarm.dataTEMPNAME.Compressable;
@@ -26,7 +28,7 @@ public class Alarm implements Compressable {
 	private static final long serialVersionUID = -5120772799072450134L;
 
 	private static Map<String, Alarm> alarms = new HashMap<String, Alarm>();
-	private static AlarmMapComboBoxModel comboBox = new AlarmMapComboBoxModel();
+	private static DefaultComboBoxModel<String> comboBox = new DefaultComboBoxModel<String>();
 	public Alarm(String name, Time time, Action action) {
 		this.name = name;
 		this.time = time;
@@ -84,82 +86,6 @@ public class Alarm implements Compressable {
 	
 	//Generated Stuff
 	/**
-	 * @param key
-	 * @return
-	 * @see java.util.Map#containsKey(java.lang.Object)
-	 */
-	public boolean containsKey(Object key) {
-		return alarms.containsKey(key);
-	}
-	/**
-	 * @param value
-	 * @return
-	 * @see java.util.Map#containsValue(java.lang.Object)
-	 */
-	public boolean containsValue(Object value) {
-		return alarms.containsValue(value);
-	}
-	/**
-	 * @param key
-	 * @return
-	 * @see java.util.Map#get(java.lang.Object)
-	 */
-	public Alarm get(Object key) {
-		return alarms.get(key);
-	}
-	/**
-	 * @param key
-	 * @param value
-	 * @return
-	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
-	 */
-	public Alarm put(String key, Alarm value) {
-		return alarms.put(key, value);
-	}
-	/**
-	 * @param m
-	 * @see java.util.Map#putAll(java.util.Map)
-	 */
-	public void putAll(Map<? extends String, ? extends Alarm> m) {
-		alarms.putAll(m);
-	}
-	/**
-	 * @param key
-	 * @return
-	 * @see java.util.Map#remove(java.lang.Object)
-	 */
-	public Alarm remove(Object key) {
-		return alarms.remove(key);
-	}
-	/**
-	 * @return
-	 * @see java.util.Map#isEmpty()
-	 */
-	public boolean isEmpty() {
-		return alarms.isEmpty();
-	}
-	/**
-	 * @return
-	 * @see java.util.Map#keySet()
-	 */
-	public Set<String> keySet() {
-		return alarms.keySet();
-	}
-	/**
-	 * @return
-	 * @see java.util.Map#size()
-	 */
-	public int size() {
-		return alarms.size();
-	}
-	/**
-	 * @return
-	 * @see java.util.Map#values()
-	 */
-	public Collection<Alarm> values() {
-		return alarms.values();
-	}
-	/**
 	 * @return the running
 	 */
 	public boolean isRunning() {
@@ -172,7 +98,8 @@ public class Alarm implements Compressable {
 	public void interrupt() {
 		thread.interrupt();
 		this.running = false;
-		ManageAlarms.comboBox.removeItem(this);
+		ManageAlarms.comboBox.removeItem(this.getName());
+		alarms.remove(this);
 	}
 	/**
 	 * 
@@ -182,7 +109,8 @@ public class Alarm implements Compressable {
 		this.thread = new AlarmThread(this);
 		thread.start();
 		this.running = true;
-		ManageAlarms.comboBox.addItem(this);
+		ManageAlarms.comboBox.addItem(this.getName());
+		alarms.put(name, this);
 	}
 
 	/**
@@ -195,7 +123,7 @@ public class Alarm implements Compressable {
 	/**
 	 * @return the comboBox
 	 */
-	public static AlarmMapComboBoxModel getComboBox() {
+	public static DefaultComboBoxModel<String> getComboBox() {
 		return comboBox;
 	}
 
@@ -208,5 +136,91 @@ public class Alarm implements Compressable {
 	@Override
 	public String toString() {
 		return this.name+"@"+this.time.toString();
+	}
+
+	/**
+	 * @param arg0
+	 * @return
+	 * @see java.util.Map#containsKey(java.lang.Object)
+	 */
+	public static boolean containsKey(Object arg0) {
+		return alarms.containsKey(arg0);
+	}
+
+	/**
+	 * @param value
+	 * @return
+	 * @see java.util.Map#containsValue(java.lang.Object)
+	 */
+	public static boolean containsValue(Object value) {
+		return alarms.containsValue(value);
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Map#get(java.lang.Object)
+	 */
+	public static Alarm get(Object key) {
+		return alarms.get(key);
+	}
+
+	/**
+	 * @return
+	 * @see java.util.Map#isEmpty()
+	 */
+	public static boolean isEmpty() {
+		return alarms.isEmpty();
+	}
+
+	/**
+	 * @return
+	 * @see java.util.Map#keySet()
+	 */
+	public static Set<String> keySet() {
+		return alarms.keySet();
+	}
+
+	/**
+	 * @param key
+	 * @param value
+	 * @return
+	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+	 */
+	public static Alarm put(String key, Alarm value) {
+		return alarms.put(key, value);
+	}
+
+	/**
+	 * @param m
+	 * @see java.util.Map#putAll(java.util.Map)
+	 */
+	public static void putAll(Map<? extends String, ? extends Alarm> m) {
+		alarms.putAll(m);
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 * @see java.util.Map#remove(java.lang.Object)
+	 */
+	public static Alarm remove(Object key) {
+		return alarms.remove(key);
+	}
+
+	/**
+	 * @return
+	 * @see java.util.Map#size()
+	 */
+	public static int size() {
+		return alarms.size();
+	}
+
+	/**
+	 * @return
+	 * @see java.util.Map#values()
+	 */
+	public static Collection<Alarm> values() {
+		return alarms.values();
 	}
 }
