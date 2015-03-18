@@ -1,29 +1,22 @@
 package com.ezreb.alarm.window;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.Hashtable;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.ezreb.alarm.dataTEMPNAME.Time;
 import com.ezreb.alarm.dataTEMPNAME.action.Action;
 import com.ezreb.alarm.dataTEMPNAME.alarm.Alarm;
-
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import java.awt.Insets;
-import java.util.Hashtable;
-
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import java.awt.ComponentOrientation;
 
 public class AlarmPanel extends JPanel {
 
